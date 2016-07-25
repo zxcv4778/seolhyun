@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="scanData">
+	<select id="selectScanData" parameterType="hashmap" resultType="kr.hfb.hellobeacon.scan.domain.ScanData">
+		SELECT 
+			IDX,		    TYPE_CODE,		TRANS_ID,		SCANNER_ID,		    UUID,			UUID2,			UUID3,
+		    MAJOR_VER,		MINOR_VER,		RSSI,		    TX_POWER,		REG_DATE,		    
+		    RESV1,		    RESV2,		    RESV3,		    RESV4,		    RESV5,		CLIENTTIME
+		FROM SCAN_DATA
+		<where>
+			IDX = #{idx}
+		</where>
+	</select>
+	
+	<select id="selectFilteredScanData" parameterType="kr.hfb.hellobeacon.scan.domain.ScanData" resultType="kr.hfb.hellobeacon.scan.domain.ScanData">
+		SELECT 
+		IDX,		    TYPE_CODE,		TRANS_ID,		SCANNER_ID,		    UUID,			UUID2,			UUID3,
+	    MAJOR_VER,		MINOR_VER,		RSSI,		    TX_POWER,		REG_DATE,		    
+	    RESV1,		    RESV2,		    RESV3,		    RESV4,		    RESV5,		CLIENTTIME
+		FROM SCAN_DATA
+		<where>
+		<if test='typecode == "IB"'>
+		scanner_id = #{scannerid} and uuid = #{uuid} and major_ver = #{majorver} and minor_ver = #{minorver}
+		</if>
+		<if test='typecode == "ES"'>
+		scanner_id = #{scannerid} and uuid = #{uuid} and uuid2 = #{uuid2}
+		</if>
+		<if test='typecode == "ET"'>
+		scanner_id = #{scannerid} and uuid = #{uuid}
+		</if>
+		and reg_date > date_add(now(), interval -1 minute) 
+		</where>
+	</select>
+	
+	<insert id="insertScanData" parameterType="kr.hfb.hellobeacon.scan.domain.ScanData">
+	INSERT INTO SCAN_DATA 
+			(TYPE_CODE,		TRANS_ID,		    SCANNER_ID,		    UUID,			UUID2,			UUID3,
+		    MAJOR_VER,		MINOR_VER,	    RSSI,		    TX_POWER,		    REG_DATE,		
+		    RESV1,		    RESV2,		    RESV3,		    RESV4,		    	RESV5		,CLIENTTIME)
+	VALUES (#{typecode},	#{transid},		#{scannerid},		#{uuid},		#{uuid2},		#{uuid3},
+		    #{majorver},	#{minorver},	#{rssi},		#{txpower},		now(),				
+		    #{resv1},		#{resv2},		#{resv3},		#{resv4},		    #{resv5},		#{clienttime})
+	</insert>
+	
+	
+	<select id="selectScanner" parameterType="kr.hfb.hellobeacon.scan.domain.Scanner" resultType="kr.hfb.hellobeacon.scan.domain.Scanner">
+		SELECT 
+			IDX,		    TYPE_CODE,		SCANNER_ID,		    UUID,
+		    REG_DATE,		UPT_DATE,	    MAC_ADDRESS,	STATUS,
+		    RESV1,		    RESV2,		    RESV3,		    RESV4,		    RESV5
+		FROM SCANNER
+		<where>
+			IDX = #{idx}
+		</where>
+	</select>
+	
+	<insert id="insertScanner" parameterType="kr.hfb.hellobeacon.scan.domain.Scanner">
+	INSERT INTO SCANNER 
+			(IDX,		    TYPE_CODE,	    SCANNER_ID,		    UUID,
+		    REG_DATE,		UPT_DATE,	    STATUS,
+		    RESV1,		    RESV2,		    RESV3,		    RESV4,		    	RESV5)
+	VALUES (#{idx},		    #{typecode},	#{scannerid},		#{uuid}
+		    now(),			now(),			#{status},
+		    #{resv1},		#{resv2},		#{resv3},		#{resv4},		    #{resv5})
+	</insert>
+	
+	
+	<update id="updateScanner" parameterType="kr.hfb.hellobeacon.scan.domain.Scanner">
+	UPDATE SCANNER SET
+		STATUS = 'R',
+		UPT_DATE = now()
+		<where>
+			SCANNER_ID = #{scannerId}
+		</where>
+	</update>
+</mapper>

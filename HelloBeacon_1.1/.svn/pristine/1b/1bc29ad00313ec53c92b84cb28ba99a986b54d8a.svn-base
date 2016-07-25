@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="beacon">
+	<insert id="insertBeacon" parameterType="hashmap">
+		INSERT INTO BEACON
+		(
+			BEACON_ID,
+			BEACON_CODE,
+			MEMBER_ID,
+			TYPE_CODE,
+			MAC_ADDRESS,
+			TITLE,
+			DESCRIPTION,
+			LAYOUT_ID,
+			RECOMMEND_COUNT,
+			LATITUDE,
+			LONGITUDE,
+			DELETE_FLAG,
+			INSERT_DATETIME,
+			INSERT_MEMBER_EMAIL
+		)
+		VALUES
+		(
+			#{beaconId},
+			#{beaconCode},
+			#{memberId},
+			#{typeCode},
+			#{macAddress},
+			#{title},
+			#{description},
+			#{layoutId},
+			0,
+			#{latitude},
+			#{longitude},
+			'N',
+			CURRENT_TIMESTAMP(),
+			#{memberEmail}
+		)
+	</insert>
+	<insert id="insertBeaconFile" parameterType="hashmap">
+		INSERT INTO BEACON_FILE
+		(
+			BEACON_FILE_ID,
+			FILE_TYPE,
+			FILE_NAME,
+			PHYSICAL_PATH,
+			LOGICAL_PATH,
+			DELETE_FLAG,
+			INSERT_DATETIME,
+			BEACON_ID
+		)
+		VALUES
+		(
+			#{beaconFileId},
+			#{fileType},
+			#{fileName},
+			#{physicalPath},
+			#{logicalPath},
+			'N',
+			CURRENT_TIMESTAMP(),
+			#{beaconId}
+		)
+	</insert>
+	<update id="updateBeacon" parameterType="hashmap">
+		UPDATE
+			BEACON
+		SET
+			<if test="beaconCode != null and beaconCode != ''">
+				BEACON_CODE = #{beaconCode},
+			</if>
+			<if test="typeCode != null and typeCode != ''">
+				TYPE_CODE = #{typeCode},
+			</if>
+			<if test="macAddress != null and macAddress != ''">
+				MAC_ADDRESS = #{macAddress},
+			</if>
+			<if test="title != null and title != ''">
+				TITLE = #{title},
+			</if>
+			<if test="description != null and description != ''">
+				DESCRIPTION = #{description},
+			</if>
+			<if test="layoutId != null and layoutId != ''">
+				LAYOUT_ID = #{layoutId},
+			</if>
+			<if test="recommendCount != null and recommendCount != ''">
+				RECOMMEND_COUNT = #{recommendCount},
+			</if>
+			<if test="latitude != null and latitude != ''">
+				LATITUDE = #{latitude},
+			</if>
+			<if test="longitude != null and longitude != ''">
+				LONGITUDE = #{longitude},
+			</if>
+			UPDATE_DATETIME = CURRENT_TIMESTAMP()
+		<where>
+			BEACON_ID = #{beaconId}
+		</where>
+	</update>
+	<update id="updateBeaconRecommendCount" parameterType="hashmap">
+		UPDATE
+			BEACON
+		SET
+			RECOMMEND_COUNT = RECOMMEND_COUNT + 1
+		<where>
+			BEACON_ID = #{beaconId}
+		</where>
+	</update>
+	<update id="updateBeaconLocation" parameterType="hashmap">
+		UPDATE
+			BEACON
+		SET
+			<if test="macAddress != null and macAddress != ''">
+				MAC_ADDRESS = #{macAddress},
+			</if>
+			<if test="latitude != null and latitude != ''">
+				LATITUDE = #{latitude},
+			</if>
+			<if test="longitude != null and longitude != ''">
+				LONGITUDE = #{longitude},
+			</if>
+			UPDATE_DATETIME = CURRENT_TIMESTAMP()
+		<where>
+			BEACON_CODE = #{beaconCode}
+		</where>
+	</update>
+	<select id="selectBeaconList" parameterType="hashmap" resultType="hashmap">
+		SELECT 
+			TITLE AS title, 
+			DESCRIPTION AS description,
+			BEACON_ID AS beaconId, 
+			(
+				SELECT 
+					LOGICAL_PATH
+				FROM 
+					BEACON_FILE AS BF 
+				<where>
+					BF.BEACON_ID = B.BEACON_ID
+				AND 
+					FILE_TYPE= 'ICO'
+				</where>
+				ORDER BY
+					INSERT_DATETIME DESC
+				LIMIT 1
+			) AS iconUrl,
+			(
+				SELECT 
+					LOGICAL_PATH
+				FROM 
+					BEACON_FILE AS BF 
+				<where>
+					BF.BEACON_ID = B.BEACON_ID
+				AND 
+					FILE_TYPE= 'IMG'
+				</where>
+				ORDER BY
+					INSERT_DATETIME DESC
+				LIMIT 1
+			) AS imageUrl,
+			BL.LAYOUT_ID AS layoutId,
+			(
+				SELECT
+					COUNT(DISTINCT ip_address)
+				FROM
+					STATISTICS_ACCESS
+				WHERE
+					beacon_code = B.BEACON_CODE
+			) AS totalUniqueUsers,
+			(
+				SELECT
+					COUNT(BEACON_CODE)
+				FROM
+					STATISTICS_ACCESS
+				WHERE
+					beacon_code = B.BEACON_CODE
+			) AS totalClicks			
+				
+		FROM 
+			BEACON AS B 
+		INNER JOIN
+			BEACON_LAYOUT AS BL
+		ON
+			B.LAYOUT_ID = BL.LAYOUT_ID
+		<where>
+			B.INSERT_MEMBER_EMAIL=#{memberEmail}
+		</where> 
+		ORDER BY B.INSERT_DATETIME DESC
+	</select>
+	
+	<select id="selectBeaconFileUseBeaconId" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			BEACON_FILE_ID AS beaconFileId,
+			FILE_NAME AS fileName,
+			FILE_TYPE AS fileType,
+			PHYSICAL_PATH AS physicalPath,
+			LOGICAL_PATH AS logicalPath,
+			BEACON_ID AS beaconId,
+			DELETE_FLAG AS deleteFlag,
+			INSERT_DATETIME AS insertDatetime,
+			UPDATE_DATETIME AS updateDatetime
+		FROM
+			BEACON_FILE
+		<where>
+			BEACON_ID =  #{beaconId}
+			<if test="fileType != null and fileType != ''">
+				AND FILE_TYPE = #{fileType}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectBeacon" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			BEACON_ID AS beaconId,
+			BEACON_CODE AS beaconCode,
+			TYPE_CODE AS typeCode,
+			MAC_ADDRESS AS macAddress,
+			TITLE AS title,
+			DESCRIPTION AS description,
+			LAYOUT_ID AS layoutId,
+			RECOMMEND_COUNT AS recommendCount,
+			LATITUDE AS latitude,
+			LONGITUDE AS longitude,
+			DELETE_FLAG AS deleteFlag,
+			MEMBER_ID AS memberId,
+			INSERT_DATETIME AS insertDatetime,
+			INSERT_MEMBER_EMAIL AS insertMemberEmail,
+			UPDATE_DATETIME AS updateDatetime
+		FROM
+			BEACON
+		<where>
+			<if test="beaconId != null and beaconId != ''">
+				AND BEACON_ID = #{beaconId}
+			</if>
+			<if test="beaconCode != null and beaconCode != ''">
+				AND BEACON_CODE = #{beaconCode}
+			</if>
+
+		</where>
+	</select>
+
+	<delete id="deleteBeacon" parameterType="hashmap">
+		DELETE FROM 
+			BEACON
+		<where>
+			BEACON_ID = #{beaconId}
+			AND INSERT_MEMBER_EMAIL = #{memberEmail}
+		</where>
+	</delete>
+	
+	<delete id="deleteBeaconFile" parameterType="hashmap">
+		DELETE FROM 
+			BEACON_FILE
+		<where>
+			BEACON_ID = #{beaconId}
+			<if test="fileType != null and fileType != ''">
+				AND FILE_TYPE = #{fileType}
+			</if>
+		</where>
+	</delete>
+	
+	<select id="selectBeaconNoti" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			TITLE AS title,
+			DESCRIPTION AS `desc`,
+			(
+				SELECT
+					LOGICAL_PATH 
+				FROM
+					BEACON_FILE 
+				<where>
+					BEACON_ID = B.BEACON_ID 
+					AND FILE_TYPE='ICO'
+				</where>
+			) AS icon
+		FROM
+			BEACON AS B
+		<where>
+			B.BEACON_CODE = #{beaconCode};	
+		</where>
+	</select>
+</mapper>

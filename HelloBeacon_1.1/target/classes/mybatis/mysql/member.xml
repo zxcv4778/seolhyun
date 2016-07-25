@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="member">
+	<insert id="insertMember" parameterType="hashmap">
+			INSERT INTO MEMBER
+			(
+				MEMBER_EMAIL,
+				MEMBER_PASSWORD,
+				MEMBER_NAME,
+				MEMBER_TYPE,
+				AUTH_KEY,
+				AUTH_YN,
+				DELETE_FLAG,
+				MEMBERSHIP_TYPE,
+				INSERT_DATETIME
+			)
+			VALUES
+			(
+				#{memberEmail},
+				#{memberPassword},
+				#{memberName},
+				#{memberType},
+				#{authKey},
+				#{authYn},
+				'N',
+				#{membershipType},
+				CURRENT_TIMESTAMP()
+			)
+		</insert>
+
+	<update id="updateMemberAuthkey" parameterType="hashmap">
+		UPDATE
+			MEMBER
+		SET
+			AUTH_KEY = #{authKey}
+		<where>
+			MEMBER_EMAIL = #{memberEmail}
+		</where>
+	</update>
+
+	<select id="selectMember" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			MEMBER_EMAIL AS memberEmail,
+			MEMBER_PASSWORD AS memberPassword,
+			MEMBER_NAME AS memberName,
+			MEMBER_TYPE AS memberType,
+			MEMBERSHIP_TYPE AS membershipType,
+			AUTH_KEY AS authKey,
+			AUTH_YN AS authYn,
+			DELETE_FLAG AS deleteFlag,
+			INSERT_DATETIME AS insertDatetime,
+			UPDATE_DATETIME AS updateDatetime
+		FROM
+			MEMBER
+		<where>
+			MEMBER_EMAIL = #{memberEmail}
+			AND MEMBER_PASSWORD = #{memberPassword}
+		</where>
+	</select>
+	
+	<select id="selectMemberUseMemberEmail" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			MEMBER_EMAIL AS memberEmail,
+			MEMBER_PASSWORD AS memberPassword,
+			MEMBER_NAME AS memberName,
+			MEMBER_TYPE AS memberType,
+			MEMBERSHIP_TYPE AS membershipType,
+			AUTH_KEY AS authKey,
+			AUTH_YN AS authYn,
+			DELETE_FLAG AS deleteFlag,
+			INSERT_DATETIME AS insertDatetime,
+			UPDATE_DATETIME AS updateDatetime
+		FROM
+			MEMBER
+		<where>
+			MEMBER_EMAIL = #{memberEmail}
+		</where>
+	</select>
+
+	<select id="selectMemberUseMemberEmailAuthkey" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			MEMBER_EMAIL AS memberEmail,
+			MEMBER_PASSWORD AS memberPassword,
+			MEMBER_NAME AS memberName,
+			MEMBER_TYPE AS memberType,
+			MEMBERSHIP_TYPE AS membershipType,
+			AUTH_KEY AS authKey,
+			AUTH_YN AS authYn,
+			DELETE_FLAG AS deleteFlag,
+			INSERT_DATETIME AS insertDatetime,
+			UPDATE_DATETIME AS updateDatetime
+		FROM
+			MEMBER
+		<where>
+			MEMBER_EMAIL = #{memberEmail}
+			AND AUTH_KEY = #{authKey}
+		</where>
+	</select>
+	
+	<select id="selectMemberUseAuthkey" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			MEMBER_EMAIL AS memberEmail
+		FROM
+			MEMBER
+		<where>
+				AUTH_KEY = #{authKey}
+		</where>
+	</select>
+	
+	<update id="updateMemberAuthYn" parameterType="hashmap">
+		UPDATE
+			MEMBER
+		SET
+			AUTH_YN = 'Y'
+		<where>
+			AUTH_KEY = #{authKey}
+		</where>
+	</update>
+
+	<update id="updateMemberPassword" parameterType="hashmap">
+		UPDATE
+			MEMBER
+		SET
+			MEMBER_PASSWORD = #{memberPassword}
+		<where>
+			MEMBER_EMAIL = #{memberEmail}
+		</where>
+	</update>
+
+	<update id="updateMember" parameterType="hashmap">
+		UPDATE
+			MEMBER
+		SET
+			MEMBER_PASSWORD = #{memberPassword},
+			MEMBER_NAME = #{memberName}
+		<where>
+			MEMBER_EMAIL = #{memberEmail}
+			AND AUTH_KEY = #{authKey}
+		</where>
+	</update>
+</mapper>

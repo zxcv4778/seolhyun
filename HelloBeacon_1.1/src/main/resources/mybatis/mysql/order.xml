@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="order">
+   <select id="selectOrder" parameterType="order" resultType="order">
+      SELECT
+         idx,
+         title,
+         author,
+         reg_date,
+         insert_date,
+         count
+      FROM
+         ORDER_TEST
+      WHERE
+         idx = #{idx}
+   </select>
+   <select id="selectAllList" resultType="order">
+      SELECT
+         idx,
+         title,
+         author,
+         insert_date,
+         reg_date,
+         count
+      FROM
+         ORDER_TEST
+      ORDER BY 
+         idx DESC
+   </select>
+<!--    <update id="updateOrder" parameterType="order">
+      UPDATE
+         ORDER_TEST
+      SET
+         title = #{title,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}
+      <where>
+         idx = 0
+      </where>
+         
+   </update> -->
+<!--    <insert id="insertOrder" parameterType="order">
+      INSERT INTO 
+         ORDER_TEST (title,content,author,reg_date,insert_date)
+      VALUES (
+      #{title,jdbcType=VARCHAR},
+      #{content,jdbcType=VARCHAR},
+      #{author},
+      now(),
+      now()
+      )
+   </insert> -->
+   
+</mapper>

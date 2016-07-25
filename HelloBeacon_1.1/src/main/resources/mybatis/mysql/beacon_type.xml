@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="beaconType">
+	<select id="getBeaconTypeList" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			TYPE_ID AS beaconTypeId,
+			TYPE_NAME AS typeName,
+			PROXIMITY_ID AS proximityId,
+			TYPE_CODE AS typeCode,
+			INSERT_DATETIME AS insertDatetime,
+			UPDATE_DATETIME AS updateDatetime
+		FROM
+			BEACON_TYPE
+		<where>
+			TYPE_CODE = #{typeCode}
+		</where>
+	</select>
+</mapper>

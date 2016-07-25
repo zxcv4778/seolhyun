@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="statistics">
+	<insert id="insertStatisticsMember" parameterType="hashmap">
+		INSERT INTO STATISTICS_MEMBER
+		(
+			STATISTICS_ID,
+			MEMBER_EMAIL,
+			STATISTICS_TYPE,
+			INSERT_DATETIME
+		)
+		VALUES
+		(
+			#{statisticsId},
+			#{memberEmail},
+			#{statisticsType},
+			CURRENT_TIMESTAMP()
+		)
+	</insert>
+
+	<insert id="insertStatisticsAccess" parameterType="hashmap">
+		INSERT INTO STATISTICS_ACCESS
+		(
+			STATISTICS_ID,
+			ACCESS_URL,
+			IP_ADDRESS,
+			INSERT_DATETIME,
+			BEACON_CODE
+		)
+		VALUES
+		(
+			#{statisticsId},
+			#{accessUrl},
+			#{ipAddress},
+			CURRENT_TIMESTAMP(),
+			#{beaconCode}
+		)
+	</insert>
+
+	<insert id="insertStatisticsBeacon" parameterType="hashmap">
+		INSERT INTO STATISTICS_BEACON
+		(
+			STATISTICS_ID,
+			TYPE_CODE,
+			STATISTICS_TYPE,
+			MEMBER_EMAIL,
+			INSERT_DATETIME
+		)
+		VALUES
+		(
+			#{statisticsId},
+			#{typeCode},
+			#{statisticsType},
+			#{memberEmail},
+			CURRENT_TIMESTAMP()
+		)
+	</insert>
+</mapper>

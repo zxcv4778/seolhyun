@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="beaconPage">
+	<select id="selectBeaconPage" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			B.BEACON_ID AS beaconId,
+			B.RECOMMEND_COUNT AS recommendCount,
+			B.TITLE AS title,
+			B.DESCRIPTION AS description,
+			B.LAYOUT_ID as layoutId,
+			BL.LAYOUT_HTML as layoutHtml
+		FROM
+			BEACON AS B 
+		INNER JOIN 
+			BEACON_LAYOUT AS BL 
+		ON
+			B.LAYOUT_ID = BL.LAYOUT_ID
+		<where>
+			<if test="beaconId != null and beaconId != ''">
+				AND BEACON_ID = #{beaconId}
+			</if>
+			<if test="beaconCode != null and beaconCode != ''">
+				AND BEACON_CODE = #{beaconCode}
+			</if>
+		</where>
+	</select>
+	<select id="selectBeaconLayout" parameterType="hashmap" resultType="hashmap">
+		SELECT
+			LAYOUT_ID as layoutId,
+			LAYOUT_HTML as layoutHtml
+		FROM
+			BEACON_LAYOUT 
+		<where>
+			LAYOUT_ID = #{layoutId}
+		</where>
+	</select>
+</mapper>

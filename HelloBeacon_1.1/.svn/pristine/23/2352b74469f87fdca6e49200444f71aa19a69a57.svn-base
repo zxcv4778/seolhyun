@@ -1,0 +1,12 @@
+package kr.hfb.hellobeacon.order.service;
+
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import kr.hfb.hellobeacon.common.bean.CommonBean;
+import kr.hfb.hellobeacon.order.domain.Order;
+
+public interface OrderService {
+	public Order selectOrderOne(Order req);
+}
