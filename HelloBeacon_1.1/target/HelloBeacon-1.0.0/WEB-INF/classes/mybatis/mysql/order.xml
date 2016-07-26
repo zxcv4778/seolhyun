@@ -27,7 +27,7 @@
       ORDER BY 
          idx DESC
    </select>
-<!--    <update id="updateOrder" parameterType="order">
+   <update id="updateOrder" parameterType="order">
       UPDATE
          ORDER_TEST
       SET
@@ -36,8 +36,8 @@
          idx = 0
       </where>
          
-   </update> -->
-<!--    <insert id="insertOrder" parameterType="order">
+   </update>
+   <insert id="insertOrder" parameterType="order">
       INSERT INTO 
          ORDER_TEST (title,content,author,reg_date,insert_date)
       VALUES (
@@ -47,6 +47,6 @@
       now(),
       now()
       )
-   </insert> -->
+   </insert>
    
 </mapper>

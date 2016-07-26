@@ -11,7 +11,7 @@ import kr.hfb.hellobeacon.order.domain.Order;
 
 public interface OrderService {
 	public Order selectOrderOne(Order req);
-	public int updateOne(Order req);
-	public int insertOne(Order req);
+	public int updateOrder(Order req);
+	public int insertOrder(Order req);
 	public JSONArray selectAll(Order req);
 }

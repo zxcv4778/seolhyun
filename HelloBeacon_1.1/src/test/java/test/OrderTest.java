@@ -1,4 +1,4 @@
-/*package test;
+package test;
 
 import static org.junit.Assert.*;
 
@@ -44,20 +44,31 @@ public class OrderTest {
 	@Autowired
 	private OrderService orderService;
 	
-	@Test
+	/*@Test
 	public void test() {
-		Order  req = new Order();
+		Order req = new Order();
 		req.setIdx(12);
 		Order result = orderService.selectOrderOne(req);
 		System.out.println("### result : "+result.toString());
-	}
+	}*/
 	
-	/*@Test
+	@Test
 	public void test_insertOrderOne() {
 		
 		Order req = new Order();
-		req.setItemName(itemName);
+		req.setIdx( 33 );
+		req.setTitle( "string" );
+		req.setContent( "String1" );
+		req.setAuthor( "String2" );
+		req.setInsert_date( "321" );
+		req.setReg_date( "344" );
 		int result = orderDao.insertOrder(req);
 		
 		System.out.println("#MLOG result : "+result);
-	}*/
+	}
+	
+	@Test
+	public void test_deleteOrderOne( ) {
+		Order req = new Order( );
+	}
+}

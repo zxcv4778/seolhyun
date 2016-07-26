@@ -1,6 +1,8 @@
 var data;
 var data2;
 var data3;
+
+//commit3444
 function buttonName_click(){
    
    if($("#inputBox").val()==""||$("#inputBox3").val()==""){
@@ -37,7 +39,7 @@ function buttonName_click2(){
       }
    });
 }
-
+//fdsa
 function ajaxCall(){
    var dataForm ={
       title:data,
@@ -49,6 +51,13 @@ function ajaxCall(){
       type: "POST",
       data: dataForm,
       success : function(res){
+    	  $("#div1").append( 
+    			  "<p> idx = " + obj.idx +
+    			  "title = " + obj.title +
+    			  "author = " + obj.author + 
+    			  "</p>" 
+    			  );
+    	  
       },
       error : function(req,txt,err){
          $("#div1").append("<p>req : "+req+"</p></br>");

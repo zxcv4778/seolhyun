@@ -6,6 +6,7 @@
          idx,
          title,
          author,
+         content,
          reg_date,
          insert_date,
          count
@@ -27,26 +28,29 @@
       ORDER BY 
          idx DESC
    </select>
-<!--    <update id="updateOrder" parameterType="order">
+   <update id="updateOrder" parameterType="order">
       UPDATE
          ORDER_TEST
       SET
-         title = #{title,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}
+         title = #{title,jdbcType=VARCHAR}, content = #{content,jdbcType=VARCHAR}, author = #{author}, reg_date = now()
       <where>
-         idx = 0
+         idx = #{idx}
       </where>
          
-   </update> -->
-<!--    <insert id="insertOrder" parameterType="order">
+   </update>
+   <insert id="insertOrder" parameterType="order">
       INSERT INTO 
-         ORDER_TEST (title,content,author,reg_date,insert_date)
+         ORDER_TEST (title,author,reg_date,insert_date, content)
       VALUES (
       #{title,jdbcType=VARCHAR},
-      #{content,jdbcType=VARCHAR},
       #{author},
       now(),
-      now()
-      )
-   </insert> -->
+      now(),
+      #{content}
+      );
+   </insert>
+   
+   <!-- <delete id="deleteOrder" parameterType = "order"">
+   	</delete> -->
    
 </mapper>

@@ -39,11 +39,12 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.selectOrder(req);
 	}
 	
-	public int updateOne(Order req){
-		return 0;
+	public int updateOrder(Order req){
+		System.out.println( "Service::upadateOrder" );
+		return orderDao.updateOrder( req );
 	}
-	public int insertOne(Order req){
-		System.out.println("Serivce::updateOrder");
+	public int insertOrder(Order req){
+		System.out.println("Serivce::insertOrder");
 		return orderDao.insertOrder(req);
 	}
 	public JSONArray selectAll(Order req){

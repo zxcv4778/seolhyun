@@ -15,12 +15,15 @@
    <div>
       <label for="inputBox">Title</label>
       <input type="text" id="inputBox"/>
-<!--       <label for="inputBox2">Content</label>
-      <input type="text" id="inputBox2"/> -->
+      <label for="inputBox2">Content</label>
+      <input type="text" id="inputBox2"/>
       <label for="inputBox3">Author</label>
       <input type="text" id="inputBox3"/>
+      <label for="inputBox4">idx</label>
+      <input type="text" id="inputBox4"/>
       <button type="button" id="bt1" onClick="buttonName_click()">Insert</button>
       <button type="button" id="bt2" onClick="buttonName_click2()">Select</button>
+      <button type="button" id="bt3" onClick="buttonName_click3()">update</button>
    </div>
    <div id="div1">   
    </div>

@@ -69,10 +69,10 @@ public class OrderController {
 	}
 	
 	@RequestMapping(value="/test2", method = RequestMethod.POST)
-	public int test2(Order vo){
+	public int test2( Order vo ) {
 		logger.info("test");
 		System.out.println("OrderController::test2");
-		int result = orderService.insertOne(vo);
+		int result = orderService.insertOrder(vo);
 		System.out.println("result:"+result);
 		return result;
 	}
@@ -82,10 +82,19 @@ public class OrderController {
 	public JSONArray test3(Order vo){
 		logger.info("test");
 		System.out.println("OrderController::test3");
-		JSONArray arr = new JSONArray();
-		arr=orderService.selectAll(vo);
-		System.out.println("arr:"+arr);
-		return arr;
-		//return orderService.selectAll();
+//		JSONArray arr = new JSONArray();
+//		arr=orderService.selectAll(vo);
+//		System.out.println("arr:"+arr);
+		//return arr;
+		return orderService.selectAll( vo );
 	} 
+	
+	@RequestMapping( value = "/test4", method = RequestMethod.POST )
+	public int test4( Order vo ) {
+		logger.info( "test" );
+		System.out.println( "OrderController::test4" );
+		int result = orderService.updateOrder( vo );
+		System.out.println( "result : " + result );
+		return result;
+	}
 }

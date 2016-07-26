@@ -40,14 +40,20 @@ public class OrderDaoImpl implements OrderDao {
 	}
 	
 	public int updateOrder(Order req){
-		
-		return 0;
+		int res;
+		System.out.println( "upadateOrder" );
+		System.out.println( "req.title : " + req.getTitle( ) );
+		System.out.println( "req.content : " + req.getContent( ) );
+		System.out.println( "req.author : " + req.getAuthor( ) );
+		res = sqlSessionTemplate.update( "updateOrder", req );
+		System.out.println( "res : " + res );
+		return res;
 	}
 	
 	public int insertOrder(Order req){
 		int res;
-		System.out.println("DAO:::updateOrder");
-		System.out.println("req.content :"+req.getTitle());
+		System.out.println("DAO:::insertOrder");
+		System.out.println("req.title :"+req.getTitle());
 		System.out.println("req.content :"+req.getContent());
 		System.out.println("req.author :"+req.getAuthor());
 		res = sqlSessionTemplate.insert("insertOrder",req);
