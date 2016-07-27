@@ -97,4 +97,13 @@ public class OrderController {
 		System.out.println( "result : " + result );
 		return result;
 	}
+	
+	@RequestMapping( value = "/test5", method = RequestMethod.POST )
+	public int test5( Order vo ) {
+		logger.info( "test" );
+		System.out.println( "OrderController::test5" );
+		int result = orderService.deleteOrder( vo );
+		System.out.println( "result : " + result );
+		return result;
+	}
 }

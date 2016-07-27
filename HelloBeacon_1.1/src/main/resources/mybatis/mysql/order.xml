@@ -50,7 +50,12 @@
       );
    </insert>
    
-   <!-- <delete id="deleteOrder" parameterType = "order"">
-   	</delete> -->
+   <delete id="deleteOrder" parameterType = "order">
+   	  DELETE FROM 
+   	  	order_test
+   	  <where>
+   	  	title = #{title}
+   	  </where>
+   </delete> 
    
 </mapper>

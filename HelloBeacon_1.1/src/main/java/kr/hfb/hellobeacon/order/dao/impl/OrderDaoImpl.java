@@ -61,6 +61,15 @@ public class OrderDaoImpl implements OrderDao {
 		return res;
 	}
 	
+	public int deleteOrder( Order req ) {
+		int res;
+		System.out.println("DAO:::deleteOrder");
+		System.out.println("req.title :"+req.getTitle());
+		res = sqlSessionTemplate.delete("deleteOrder",req);
+		System.out.println("res : "+res);
+		return res;
+	}
+	
 	public JSONArray selectAll(Order req){
 		//JSONArray arr = new JSONArray();
 		//System.out.println("arr : "+arr);

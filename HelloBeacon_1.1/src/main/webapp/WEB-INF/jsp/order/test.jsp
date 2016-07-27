@@ -24,6 +24,7 @@
       <button type="button" id="bt1" onClick="buttonName_click()">Insert</button>
       <button type="button" id="bt2" onClick="buttonName_click2()">Select</button>
       <button type="button" id="bt3" onClick="buttonName_click3()">update</button>
+      <button type="button" id="bt4" onClick="buttonName_click4()">delete</button>
    </div>
    <div id="div1">   
    </div>

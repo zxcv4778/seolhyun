@@ -47,6 +47,11 @@ public class OrderServiceImpl implements OrderService{
 		System.out.println("Serivce::insertOrder");
 		return orderDao.insertOrder(req);
 	}
+	
+	public int deleteOrder( Order req ) {
+		System.out.println( "Service::deleteOrder" );
+		return orderDao.deleteOrder( req );
+	}
 	public JSONArray selectAll(Order req){
 		System.out.println("Service::selectAll");
 		return orderDao.selectAll(req);

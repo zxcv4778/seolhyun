@@ -56,6 +56,15 @@ function buttonName_click3( ) {
 	   }   
 }
 
+function buttonName_click4( ) {
+	if($("#inputBox").val()==""){
+	      alert("Input any data.");
+	   }else{
+	      //alert($("#inputBox").val());
+	      data = $("#inputBox").val();
+	      ajaxCall2();
+	   }   
+}
 //fdsa
 function ajaxCall(){
    var dataForm ={
@@ -92,6 +101,27 @@ function ajaxCall1(){
 	   //alert("dataForm.title : "+dataForm.title+"\ndata.content : "+dataForm.content);
 	   $.ajax({
 	      url : "/HelloBeacon/order/test4",
+	      type: "POST",
+	      data: dataForm,
+	      success : function( res ){
+	      },
+	      error : function(req,txt,err){
+	         $("#div1").append("<p>req : "+req+"</p></br>");
+	         $("#div1").append("<p>txt : "+txt+"</p></br>");
+	         $("#div1").append("<p>err : "+err+"</p></br>");
+	         //alert("ajax Error!");
+	      }
+	   });
+	}
+
+function ajaxCall2(){
+	   var dataForm ={
+	      title:data
+	   };
+	   
+	   //alert("dataForm.title : "+dataForm.title+"\ndata.content : "+dataForm.content);
+	   $.ajax({
+	      url : "/HelloBeacon/order/test5",
 	      type: "POST",
 	      data: dataForm,
 	      success : function( res ){

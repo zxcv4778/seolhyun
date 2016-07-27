@@ -13,5 +13,6 @@ public interface OrderService {
 	public Order selectOrderOne(Order req);
 	public int updateOrder(Order req);
 	public int insertOrder(Order req);
+	public int deleteOrder( Order req );
 	public JSONArray selectAll(Order req);
 }
